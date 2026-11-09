@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Smart agriculture: bagaimana sensor, data, dan pengendali otomatis membuat pertanian lebih hemat air dan lahan. Media pembelajaran EcoTech.">
+  <meta name="theme-color" content="#F0EDE4">
+  <title>Smart Agriculture | EcoTech</title>
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/fraunces-600.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/plus-jakarta-sans-var.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<main>
+
+  <!-- ===================== HERO ===================== -->
+  <header class="hero" id="atas">
+    <div class="wrap hero-grid">
+
+      <div class="hero-copy">
+        <p class="wordmark">
+          <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="9" fill="#063C32"/><path d="M23 7C14 7 8.500 12.500 8.500 19.500c0 1.600.3 3 .9 4.200 1-5 4.300-8.800 9.200-11.300-3.800 3.300-6 7.200-6.600 12 1.100.4 2.300.6 3.500.6C22.500 25 25 16 23 7z" fill="#B8D9C0"/></svg>
+          EcoTech
+        </p>
+        <h1>Smart Agriculture</h1>
+        <p class="lead">Cara bertani yang membaca kondisi tanaman lewat sensor, lalu memutuskan kapan menyiram dan memberi nutrisi berdasarkan data, bukan perkiraan.</p>
+        <p class="goal">Di halaman ini kamu akan menjelaskan siklus kerja smart agriculture, lalu mencoba mengambil keputusan seperti pengendali irigasi otomatis.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#siklus" data-scroll>Pelajari siklusnya</a>
+          <a class="textlink" href="#referensi" data-scroll>Lihat sumber data</a>
+        </div>
+      </div>
+
+      <figure class="scene" id="scene">
+        <svg id="scene-svg" viewBox="0 0 480 300" role="img" aria-labelledby="scene-title">
+          <title id="scene-title">Penampang ladang: tanaman tomat, tanah dengan batas kelembapan 40% dan 70%, sensor kelembapan, dan pompa tetes</title>
+
+          <!-- langit -->
+          <rect width="480" height="300" fill="#DCE9E9"/>
+          <circle cx="410" cy="52" r="24" fill="#B8D9C0"/>
+
+          <!-- tanah, butiran, dan air -->
+          <path d="M0 128 C60 120 120 134 190 127 S320 120 480 128 V300 H0Z" fill="#063C32"/>
+          <g id="speckles"></g>
+          <g id="soil-water" class="soil-water"><rect x="0" y="128" width="480" height="172" fill="#397F91" opacity=".88"/></g>
+
+          <!-- batas kontrol -->
+          <line x1="0" x2="480" y1="231.200" y2="231.200" stroke="#F0EDE4" stroke-opacity=".8" stroke-width="1.500" stroke-dasharray="5 5"/>
+          <line x1="0" x2="480" y1="179.600" y2="179.600" stroke="#F0EDE4" stroke-opacity=".8" stroke-width="1.500" stroke-dasharray="5 5"/>
+          <text class="th-label" x="470" y="226" text-anchor="end">batas bawah 40%</text>
+          <text class="th-label" x="470" y="174.600" text-anchor="end">batas atas 70%</text>
+
+          <!-- akar dan tanaman -->
+          <g fill="none" stroke="#B8D9C0" stroke-width="2.500" stroke-linecap="round" opacity=".7">
+            <path d="M210 128 C208 150 196 168 186 192"/>
+            <path d="M210 128 C212 156 224 176 232 206"/>
+            <path d="M210 128 C210 160 208 188 210 222"/>
+          </g>
+          <g id="plant">
+            <path d="M210 128 C209 106 211 90 210 62" stroke="#16866C" stroke-width="5" fill="none" stroke-linecap="round"/>
+            <path d="M210 100 C190 100 175 88 172 72 C192 72 207 83 210 100Z" fill="#16866C"/>
+            <path d="M210 86 C230 86 246 74 249 58 C229 58 213 70 210 86Z" fill="#16866C"/>
+            <path d="M210 66 C200 62 198 50 204 42 C212 48 214 58 210 66Z" fill="#B8D9C0"/>
+          </g>
+          <use href="#plant" transform="translate(272 128) scale(.55) translate(-210 -128)"/>
+
+          <!-- sensor -->
+          <rect x="349" y="78" width="6" height="150" rx="3" fill="#F0EDE4"/>
+          <rect x="335" y="52" width="34" height="28" rx="6" fill="#B8D9C0"/>
+          <circle cx="345" cy="66" r="3.500" fill="#063C32"/>
+          <circle cx="359" cy="66" r="3.500" fill="#16866C"/>
+          <g class="signal">
+            <path d="M345 44 a9 9 0 0 1 14 0"/>
+            <path d="M340 37 a17 17 0 0 1 24 0"/>
+            <path d="M335 30 a25 25 0 0 1 34 0"/>
+          </g>
+
+          <!-- pompa, pipa, dan tetesan -->
+          <path d="M68 77 H150 V94" fill="none" stroke="#397F91" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M144 92 h12 l-3 9 h-6z" fill="#397F91"/>
+          <g>
+            <circle class="drop" cx="150" cy="106" r="3"/>
+            <circle class="drop" cx="150" cy="106" r="3"/>
+            <circle class="drop" cx="150" cy="106" r="3"/>
+          </g>
+          <rect class="pump-body" x="22" y="58" width="46" height="38" rx="9"/>
+          <text class="pump-text" id="pump-text" x="45" y="81" text-anchor="middle">OFF</text>
+          <text class="cap" x="45" y="50" text-anchor="middle">pompa</text>
+        </svg>
+
+        <div class="readout">
+          <div class="reading">
+            <span class="reading-num" id="reading-num">64</span><span class="reading-unit">%</span>
+            <span class="reading-label">kelembapan tanah dari sensor</span>
+          </div>
+          <svg class="spark" viewBox="0 0 240 64" role="img" aria-label="Grafik kelembapan tanah selama beberapa menit terakhir">
+            <line class="th" x1="0" x2="240" y1="38.400" y2="38.400"/>
+            <line class="th" x1="0" x2="240" y1="19.200" y2="19.200"/>
+            <path class="line" id="spark-line" d=""/>
+            <circle class="dot" id="spark-dot" r="3.500" cx="240" cy="30"/>
+          </svg>
+          <p class="status">
+            <span id="scene-status" role="status">Pompa mati. Menyala lagi saat tanah di bawah 40%.</span>
+            <button type="button" id="scene-toggle">Jeda simulasi</button>
+          </p>
+        </div>
+        <figcaption class="sr-only">Simulasi berjalan sendiri: kelembapan tanah turun, pompa menyala saat di bawah 40%, lalu mati saat mencapai 70%.</figcaption>
+      </figure>
+
+    </div>
+  </header>
+
+  <!-- ===================== DEFINISI ===================== -->
+  <section class="define" aria-labelledby="h-define">
+    <div class="wrap">
+      <h2 class="sr-only" id="h-define">Apa itu smart agriculture</h2>
+      <p class="entry-term"><strong>smart agriculture</strong><span>pertanian cerdas (kata benda)</span></p>
+      <p class="entry-def">Cara bertani yang memakai sensor, pengendali otomatis, dan analisis data, supaya air, nutrisi, dan tenaga diberikan sesuai kebutuhan tanaman yang terukur.</p>
+      <p class="entry-note">Petani tetap mengambil keputusan akhir. Teknologinya menyediakan data yang lebih cepat dan lebih konsisten daripada pengamatan dengan mata.</p>
+    </div>
+  </section>
+
+  <!-- ===================== MENGAPA ===================== -->
+  <section class="why" aria-labelledby="h-why">
+    <div class="wrap">
+      <h2 id="h-why">Mengapa cara bertani perlu berubah</h2>
+      <ul class="ledger">
+        <li>
+          <span class="fig">72%</span>
+          <p>Pertanian memakai sekitar 72% dari seluruh air tawar yang diambil manusia di dunia.
+            <span class="src">UN News, 2025, mengutip laporan FAO</span></p>
+        </li>
+        <li>
+          <span class="fig">9,7<small>miliar</small></span>
+          <p>Perkiraan jumlah penduduk dunia pada 2050, menurut proyeksi PBB yang dipakai FAO.
+            <span class="src">FAO, 2018</span></p>
+        </li>
+        <li>
+          <span class="fig"><small class="pre">hampir</small>50%</span>
+          <p>Tambahan pangan, pakan, dan bahan bakar nabati yang perlu dihasilkan pertanian pada 2050 dibandingkan 2012.
+            <span class="src">FAO, dikutip Down To Earth, 2017</span></p>
+        </li>
+      </ul>
+      <p class="why-close">Hasil panen harus naik, sementara air dan lahan terbatas. Smart agriculture adalah salah satu cara menjawabnya: menghasilkan lebih banyak dengan memakai sumber daya sesuai kebutuhan.</p>
+    </div>
+  </section>
+
+  <!-- ===================== SIKLUS ===================== -->
+  <section class="loop" id="siklus" aria-labelledby="h-loop">
+    <div class="wrap">
+      <h2 id="h-loop">Satu siklus, empat langkah</h2>
+      <p class="loop-intro">Semua teknologi di EcoTech bekerja dengan siklus yang sama. Pilih tiap langkah untuk melihat contohnya di ladang tomat.</p>
+
+      <div class="steps" role="tablist" aria-label="Empat langkah siklus smart agriculture">
+        <button type="button" role="tab" id="tab-1" aria-controls="panel-1" aria-selected="true"><span class="n">1</span>Sensor</button>
+        <button type="button" role="tab" id="tab-2" aria-controls="panel-2" aria-selected="false" tabindex="-1"><span class="n">2</span>Data</button>
+        <button type="button" role="tab" id="tab-3" aria-controls="panel-3" aria-selected="false" tabindex="-1"><span class="n">3</span>Keputusan</button>
+        <button type="button" role="tab" id="tab-4" aria-controls="panel-4" aria-selected="false" tabindex="-1"><span class="n">4</span>Aksi</button>
+      </div>
+      <div class="loopback" aria-hidden="true"><span>lalu sensor membaca lagi</span></div>
+
+      <div class="panels">
+        <div class="panel" role="tabpanel" id="panel-1" aria-labelledby="tab-1">
+          <div class="badge"><svg class="ico" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><rect x="17" y="5" width="14" height="10" rx="3"/><path d="M24 15v22"/><path d="M8 41c5-3 11-3 16 0s11 3 16 0"/><path d="M36 8a6 6 0 0 1 0 8"/><path d="M40 5a10 10 0 0 1 0 14"/></svg></div>
+          <div>
+            <h3>Sensor membaca</h3>
+            <p>Alat ukur kecil di dekat akar mengubah kondisi tanaman menjadi angka: kelembapan tanah, suhu, pH, atau cahaya.</p>
+            <div class="example"><b>Di ladang tomat</b><p>Sensor kelembapan tanah membaca <strong>28%</strong> pada pukul 06.00.</p></div>
+          </div>
+        </div>
+
+        <div class="panel" role="tabpanel" id="panel-2" aria-labelledby="tab-2" hidden>
+          <div class="badge"><svg class="ico" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 28h9l5-14 8 22 6-16 3 8h9"/></svg></div>
+          <div>
+            <h3>Data dikirim</h3>
+            <p>Angka dari sensor dikirim lewat kabel atau nirkabel (misalnya Wi-Fi atau LoRa) ke mikrokontroler atau aplikasi, lalu dicatat bersama waktunya.</p>
+            <div class="example"><b>Di ladang tomat</b><p>Mikrokontroler ESP32 menerima angka 28% dan menyimpannya sebagai bacaan pukul 06.00.</p></div>
+          </div>
+        </div>
+
+        <div class="panel" role="tabpanel" id="panel-3" aria-labelledby="tab-3" hidden>
+          <div class="badge"><svg class="ico" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><circle cx="10" cy="24" r="4"/><path d="M14 24h10"/><path d="M24 24l12-11"/><path d="M24 24l12 11"/><circle cx="40" cy="12" r="3"/><circle cx="40" cy="36" r="3"/></svg></div>
+          <div>
+            <h3>Pengendali memutuskan</h3>
+            <p>Pengendali membandingkan data dengan batas yang sudah ditentukan. Logikanya percabangan if-else, dijalankan terus-menerus.</p>
+            <div class="example">
+              <b>Di ladang tomat</b>
+              <p>28% lebih kecil dari batas 40%, jadi tanah terlalu kering.</p>
+              <pre class="code" aria-label="Contoh kode keputusan"><code>if (kelembapan &lt; 40) {
+  pompa = ON;
+}</code></pre>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" role="tabpanel" id="panel-4" aria-labelledby="tab-4" hidden>
+          <div class="badge"><svg class="ico" width="48" height="48" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c8 10 12 16 12 23a12 12 0 0 1-24 0c0-7 4-13 12-23z"/><path d="M19 30a5 5 0 0 0 5 5"/></svg></div>
+          <div>
+            <h3>Aksi dijalankan</h3>
+            <p>Aktuator bekerja sesuai keputusan: pompa menyala, katup terbuka, atau notifikasi dikirim ke ponsel petani.</p>
+            <div class="example"><b>Di ladang tomat</b><p>Relay menyalakan pompa. Beberapa detik kemudian sensor membaca lagi, dan siklus berulang sampai tanah mencapai 70%.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COBA ===================== -->
+  <section class="try" id="coba" aria-labelledby="h-try">
+    <div class="wrap">
+      <h2 id="h-try">Coba jadi pengendalinya</h2>
+      <p class="try-rule">Kamu pengendali irigasi. Aturannya: pompa menyala saat tanah di bawah 40%, mati saat 70% atau lebih, dan di antaranya dibiarkan seperti semula.</p>
+
+      <div class="quiz" id="quiz">
+        <div id="q-body">
+          <p class="q-count" id="q-count">Soal 1 dari 4</p>
+          <p class="q-text" id="q-text">Sensor membaca <strong>28%</strong>. Pompa sedang <strong>mati</strong>.</p>
+
+          <div class="gauge" aria-hidden="true">
+            <div class="gauge-track">
+              <span class="mark" style="left:40%"></span>
+              <span class="mark" style="left:70%"></span>
+              <span class="dot" id="g-dot" style="left:28%"></span>
+            </div>
+            <div class="gauge-zones">
+              <span class="z1">Pompa ON</span>
+              <span class="z2">Tetap seperti semula</span>
+              <span class="z3">Pompa OFF</span>
+            </div>
+          </div>
+
+          <p class="q-ask" id="q-ask">Keputusanmu: pompa menjadi</p>
+          <div class="q-actions" role="group" aria-labelledby="q-ask">
+            <button type="button" class="btn ghost" id="a-on">Pompa ON</button>
+            <button type="button" class="btn ghost" id="a-off">Pompa OFF</button>
+          </div>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+          <button type="button" class="btn" id="q-next" hidden>Soal berikutnya</button>
+        </div>
+
+        <div class="q-final" id="q-final" hidden>
+          <h3 id="q-score"></h3>
+          <p id="q-score-msg"></p>
+          <button type="button" class="btn" id="q-retry">Ulangi kuis</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TOPIK BERIKUTNYA ===================== -->
+  <section class="topics" aria-labelledby="h-topics">
+    <div class="wrap">
+      <h2 id="h-topics">Tiga topik berikutnya</h2>
+      <p class="lede">Siklus yang sama kamu temui lagi di tiga halaman berikutnya, masing-masing dengan simulasinya sendiri.</p>
+      <ul class="topic-list">
+        <li class="topic">
+          <div class="badge"><svg class="ico" width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 22V8"/><path d="M24 15c-6 0-10-3-10-8 6 0 10 3 10 8z"/><path d="M24 19c6 0 10-3 10-8-6 0-10 3-10 8z"/><path d="M24 22v8M24 27l-6 7M24 27l6 7"/><path d="M5 40c4-3 8-3 12 0s9 3 13 0 9-3 13 0"/></svg></div>
+          <div>
+            <h3>Hidroponik dan aeroponik</h3>
+            <p>Menanam tanpa tanah memakai larutan nutrisi, dengan akar terendam atau dikabutkan.</p>
+            <p class="can">Kamu akan mampu membedakan keduanya beserta kelebihan dan kekurangannya.</p>
+          </div>
+          <span class="page-no">Halaman 2</span>
+        </li>
+        <li class="topic">
+          <div class="badge"><svg class="ico" width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 6c8 10 12 16 12 23a12 12 0 0 1-24 0c0-7 4-13 12-23z"/><path d="M19 30a5 5 0 0 0 5 5"/></svg></div>
+          <div>
+            <h3>Smart irrigation</h3>
+            <p>Pompa yang menyala berdasarkan bacaan sensor, bukan jadwal tebakan.</p>
+            <p class="can">Kamu akan mampu menjelaskan logika if-else dan alasan memakai dua batas.</p>
+          </div>
+          <span class="page-no">Halaman 3</span>
+        </li>
+        <li class="topic">
+          <div class="badge"><svg class="ico" width="32" height="32" viewBox="0 0 48 48" aria-hidden="true"><path d="M8 40V26M18 40V16M28 40V22M38 40V8"/><path d="M4 40h40"/></svg></div>
+          <div>
+            <h3>Monitoring tanaman</h3>
+            <p>Memantau pH, suhu, kelembapan, dan cahaya lewat dashboard.</p>
+            <p class="can">Kamu akan mampu membaca data sensor dan menentukan tindakan yang tepat.</p>
+          </div>
+          <span class="page-no">Halaman 4</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ===================== SUMBER ===================== -->
+  <section class="refs" id="referensi" aria-labelledby="h-refs">
+    <div class="wrap">
+      <h2 id="h-refs">Sumber</h2>
+      <ol class="ref-list">
+        <li>
+          UN News. (2025, 12 Desember). <em>UN sounds alarm over rising demands on water resources as scarcity increases</em>.
+          <a href="https://news.un.org/en/story/2025/12/1166582" target="_blank" rel="noopener noreferrer">news.un.org/en/story/2025/12/1166582</a>
+          <span class="used">Dipakai untuk angka 72% air tawar yang dipakai pertanian.</span>
+        </li>
+        <li>
+          FAO. (2018). <em>The future of food and agriculture: Alternative pathways to 2050</em>. Roma: FAO.
+          <a href="https://openknowledge.fao.org/3/I8429EN/i8429en.pdf" target="_blank" rel="noopener noreferrer">openknowledge.fao.org/3/I8429EN/i8429en.pdf</a>
+          <span class="used">Dipakai untuk proyeksi 9,7 miliar penduduk pada 2050 (Bab 1, halaman 8).</span>
+        </li>
+        <li>
+          Niyogi, D. G. (2017, 22 Februari). <em>Agricultural transformation vital to produce 50% more food in 2050</em>. Down To Earth.
+          <a href="https://www.downtoearth.org.in/agriculture/agricultural-transformation-vital-to-produce-50-more-food-in-2050-57185" target="_blank" rel="noopener noreferrer">downtoearth.org.in/agriculture/agricultural-transformation-vital-to-produce-50-more-food-in-2050-57185</a>
+          <span class="used">Dipakai untuk kutipan FAO bahwa pertanian pada 2050 perlu menghasilkan hampir 50% lebih banyak pangan, pakan, dan bahan bakar nabati daripada 2012.</span>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+</main>
+<script src="js/app.js"></script>
+</body>
+</html>
